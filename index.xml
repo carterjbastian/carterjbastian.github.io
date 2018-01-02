@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My New Hugo Site</title>
+    <link>http://example.org/</link>
+    <description>Recent content on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>My Name</copyright>
+    <lastBuildDate>Mon, 01 Jan 2018 16:25:08 -0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>About</title>
+      <link>http://example.org/about/</link>
+      <pubDate>Mon, 01 Jan 2018 16:25:08 -0800</pubDate>
+      
+      <guid>http://example.org/about/</guid>
+      <description>About My name is Carter and I&amp;rsquo;m a software developer for Khan Academy.</description>
+    </item>
+    
+    <item>
+      <title>My First Post</title>
+      <link>http://example.org/post/my-first-post/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 -0800</pubDate>
+      
+      <guid>http://example.org/post/my-first-post/</guid>
+      <description> This is my Heading 1 Is this a subtitle? This is some text. Next Line.
+Double line and lorem ipsum.
+for code in this: # Do something  </description>
+    </item>
+    
+  </channel>
+</rss>
