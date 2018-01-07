@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Recycling Vim Macros &middot; Carter J. Bastian</title>
+        <meta name="description" content="A semi-automated approach to lint errors">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="generator" content="Hugo 0.32" />
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="Recycling Vim Macros">
+<meta property="og:description" content="A semi-automated approach to lint errors">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://carterjbastian.github.io/post/saved-macros/">
+        <link rel="stylesheet" href="https://carterjbastian.github.io/dist/styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic-ext,latin-ext,cyrillic">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        
+        
+    </head>
+    <body>
+        
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'XXX', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+        <div id="wrapper">
+            <header class="site-header">
+                <div class="container">
+                    <div class="site-title-wrapper">
+                        
+                            <h1 class="site-title">
+                                <a title="Home" href="https://carterjbastian.github.io/">Home</a>
+                            </h1>
+                        
+                        <a class="button-square" href="https://carterjbastian.github.io/index.xml"><i class="fa fa-rss"></i></a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Github" title="Github" href="https://github.com/carterjbastian">
+                                <i class="fa fa-github-alt"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Stack Overflow" title="Stack Overflow" href="https://stackoverflow.com/users/4390113/carter">
+                                <i class="fa fa-stack-overflow"></i>
+                            </a>
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="LinkedIn" title="LinkedIn" href="https://www.linkedin.com/in/carterbastian/">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        
+                        
+                        
+                            <a class="button-square button-social hint--top" data-hint="Email" title="Email" href="mailto:carter.bastian1@gmail.com">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                        
+                    </div>
+
+                    <ul class="site-nav">
+                        
+    <li class="site-nav-item">
+        <a title="Posts" href="/">Posts</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="About" href="/about/">About</a>
+    </li>
+
+    <li class="site-nav-item">
+        <a title="Contact" href="/contact/">Contact</a>
+    </li>
+
+                    </ul>
+                </div>
+            </header>
+
+            <div id="container">
+
+
+<div class="container">
+    <article class="post-container" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Recycling Vim Macros</h1>
+    
+        <p class="post-description" itemprop="description">A semi-automated approach to lint errors</p>
+    
+    <p class="post-date">
+        <span>Published <time datetime="2018-01-07" itemprop="datePublished">Sun, Jan 7, 2018</time></span>
+        <span>by</span>
+        <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+            <span itemprop="name">
+                <a href="" itemprop="url" rel="author">Carter J. Bastian</a>
+            </span>
+        </span>
+    </p>
+</header>
+
+        <div class="post-content clearfix" itemprop="articleBody">
+    
+
+    
+
+<p>Vim macros are neat<sup><a href="#FN1">[1]</a></sup>. The ability to write, store, and repeat arbitrary operations by doing them in the editor once is one of the primary reasons I use vim for (almost) everything I write.</p>
+
+<p>Lint errors<sup><a href="#FN2">[2]</a></sup>, on the other hand, are not neat.</p>
+
+<p>In the project my team has been working at Khan Academy for the past few months, we&rsquo;ve been doing a <em>lot</em> of code reorganization and moving files around. To make these big refactors effectively (without breaking anything, that is), we&rsquo;ve been using an internally-developed but entirely open-source tool for python refactoring called <a href="https://github.com/Khan/slicker">slicker</a>.</p>
+
+<p>Now, slicker is smart and gets most transformations (semantically) correct, but it&rsquo;s not <em>quite</em> smart enough to reliably break long lines in a pythonic and aesthetic manner<a href="#FN3"><sup>[3]</a></sup>. As such, moving commonly-used and widely-referenced files with slicker sometimes results in tens or even hundreds of lint errors.</p>
+
+<p>This article is going to use the example of resolving slicker-generated lint errors to illustrate how redundant tasks can be quickly and organically automated by saving commonly used operations in vim. While the example is fairly specific, the underlying principle is that proper use and reuse of vim macros can save a lot of time with little overhead.</p>
+
+<h2 id="before-we-get-started">Before we get started</h2>
+
+<p>I&rsquo;m going to make a couple of assumptions in this post:</p>
+
+<ul>
+<li>I assume that you have some knowledge of vim, vim commands, and vim macros. If that&rsquo;s not the case, I would highly recommend <a href="https://jovicailic.org/mastering-vim-quickly/">Mastering Vim Quickly</a>.</li>
+<li>I assume that you&rsquo;ve seen your <code>.vimrc</code> file before and know how to edit it. If you haven&rsquo;t, I would highly recommend <a href="http://learnvimscriptthehardway.stevelosh.com/">Learn Vimscript the Hard Way</a></li>
+<li>I assume that your vim setup already plays nicely<a href="#FN4"><sup>[4]</a></sup> with python (i.e. that you have filetype-dependent indenting on and that your filetype-dependent indentation indents python correctly).</li>
+</ul>
+
+<p><br /></p>
+
+<h1 id="an-example-problem">An Example Problem</h1>
+
+<p>Let&rsquo;s consider a hypothetical repository with two files:</p>
+
+<pre><code class="language-bash">&gt; tree
+.
+├── commonly_used_module.py
+└── foo.py
+</code></pre>
+
+<p>Here, <code>commonly_used_module.py</code> is some file with a bunch of code that you import and use in <code>foo.py</code>. Let&rsquo;s say <code>foo.py</code> looks something like this:</p>
+
+<pre><code class="language-python"># foo.py 
+import commonly_used_module
+
+my_long_variable = commonly_used_module.ImportantClassName(param_1,
+                                                           param_2,
+                                                           param_3)
+# Etc...
+</code></pre>
+
+<p>Now suppose that we want to move <code>commonly_used_module.py</code> into a new subdirectory called <code>package/</code>. To do this, we would run something like this:</p>
+
+<pre><code class="language-bash">&gt; slicker.py commonly_used_module.py new_directory/
+&gt; tree
+.
+├── foo.py
+└── new_directory
+    └── commonly_used_module.py
+</code></pre>
+
+<p>During this change, slicker would move <code>commonly_used_module.py</code> into <code>new_directory/</code> and update any mention of the old module name. After this, slicker would have changed <code>foo.py</code> to look like this:</p>
+
+<pre><code class="language-python"># foo.py 
+import new_directory.commonly_used_module
+
+my_long_variable = new_directory.commonly_used_module.ImportantClassName(param_1,
+                                                           param_2,
+                                                           param_3)
+# Etc...
+</code></pre>
+
+<p>Syntactically and semantically, this is correct. However, there a few stylistic problems:</p>
+
+<ol>
+<li>Line 4 is longer than 79 characters. According to <a href="https://www.python.org/dev/peps/pep-0008/">PEP8</a>, this is too long.</li>
+<li>The parameters on lines 5-6 are not aligned with the parameter on line 4. Yuck!</li>
+</ol>
+
+<p>Sure enough, running our linter, we get the following output:</p>
+
+<pre><code>foo.py:4:80: E501 line too long (81 &gt; 79 characters)
+foo.py:5:60: E128 continuation line under-indented for visual indent
+foo.py:5:60: E128 continuation line under-indented for visual indent
+</code></pre>
+
+<p><br /></p>
+
+<h1 id="a-recycled-macro-solution">A Recycled Macro Solution</h1>
+
+<p>Fixing the lint errors above by hand is a reasonable thing to do&hellip; once. However, if we were moving code in a real-life codebase, this class of error would be likely to appear many times across multiple files. Solving this recurring lint error without some form of automation quickly becomes tedious, and sometimes becomes infeasible<a href="#FN5"><sup>[5]</a></sup>.</p>
+
+<p>That&rsquo;s where our recycled vim macros come in. After hitting this same class of lint errors a few times, I recognized that I was applying a few patterns of operations over and over and over again. I started saving these patterns as macros whenever I would head into a session of solving lint errors. I eventually got fed up with re-writing and saving my macros every time I opened a new vim session, so I put the following lines in my <code>.vimrc</code> file<sup><a href="#FN6">[6]</a></sup>:</p>
+
+<pre><code class="language-vimscript">&quot; Macros  
+let @q='0f(a^M^[j'          &quot; Macro #1 stored in register q
+let @w='0^d0i^?^M^[j'       &quot; Macro #2 stored in register w
+let @e='k0^d0i^? ^[j'       &quot; Macro #3 stored in register e
+</code></pre>
+
+<p>Let&rsquo;s break these lines down a bit. In all three cases, the form of the <code>.vimrc</code> line is</p>
+
+<pre><code class="language-vimscript">let @X='&lt;OPERATIONS&gt;'
+</code></pre>
+
+<p>This saves the operation completed by typing the keys in the single quotes (<code>&lt;OPERATIONS&gt;</code>) to some register <code>X</code><sup><a href="#FN7">[7]</a></sup>. Because we&rsquo;re setting the values of these registers in our <code>.vimrc</code> file, they&rsquo;ll be available whenever we open a file with vim!</p>
+
+<p>Let&rsquo;s go through what each macro does, starting with <strong>Macro #1</strong>:</p>
+
+<pre><code class="language-vimscript">let @q='0f(a^M^[j'          &quot; Macro #1 stored in register q
+</code></pre>
+
+<ul>
+<li><code>0f(</code> &mdash; <code>0</code> takes us to the beginning of the current line, and <code>f(</code> takes us to the first opening parenthesis</li>
+<li><code>a^M^[</code> &mdash; <code>a</code> puts us in insert mode starting after the character under the cursor. <code>^M</code> and <code>^[</code> are the escape characters<sup><a href="#FN8">[8]</a></sup> for the enter key and the escape key respectfully. Since we&rsquo;re in insert mode, this is the equivalent of pressing the enter key and then the escape escape key. This leaves us in normal mode again</li>
+<li><code>j</code> &mdash; Moves the cursor down to the next line</li>
+</ul>
+
+<p>In total, then, macro #1 inserts a new line after the first opening parenthesis on the current line, leaving your cursor below the line where it started.</p>
+
+<p>As for <strong>Macro #2</strong>:</p>
+
+<pre><code class="language-vimscript">let @w='0^d0i^?^M^[j'       &quot; Macro #2 stored in register w
+</code></pre>
+
+<ul>
+<li><code>0^</code> &mdash; Navigates the cursor to the first non-whitespace character on the current line</li>
+<li><code>d0</code> &mdash; Deletes everything from the beginning of the line up to the cursor</li>
+<li><code>i^?^M^[</code> &mdash; <code>i</code> enters insert mode before the character under the cursor. <code>^?</code> is the escape character for the delete key (equivalent to pressing backspace once). <code>^M^[</code> enters and escapes as in macro #1</li>
+</ul>
+
+<p>Overall, this macro deletes the indentation before the current line and replaces it with the indentation suggested by your filetype indent settings. For reference, I use <a href="https://github.com/python-mode/python-mode">pymode</a>, which gets it right almost all of the time<sup><a href="#FN9">[9]</a></sup>.</p>
+
+<p>Finally, <strong>Macro #3</strong>:</p>
+
+<pre><code class="language-vimscript">let @e='k0^d0i^? ^[j'       &quot; Macro #3 stored in register e
+</code></pre>
+
+<ul>
+<li><code>k</code> &mdash; Moves the cursor to the previous line<sup><a href="#FN10">[10]</a></sup></li>
+<li><code>0^d0</code> &mdash; Deletes leading whitespace (as per macro #2)</li>
+<li><code>i^? ^[</code> &mdash; Enters insert mode, deletes one character, and adds a space. Then escapes back to normal mode</li>
+<li><code>j</code> &mdash; Moves the cursor down to the next line</li>
+</ul>
+
+<p>So all this macro does is join the content of the previous line with the contents of the current line (replacing all whitespace between the two lines with a single space).</p>
+
+<p>It might not be clear how these macros will help with our lint problem, so let&rsquo;s go through an example of how&rsquo;d we use them! Suppose that we start with our poorly-styled <code>foo.py</code> from before.</p>
+
+<pre><code class="language-python"># foo.py 
+import new_directory.commonly_used_module
+
+my_long_variable = new_directory.commonly_used_module.ImportantClassName(param_1,  # Cursor starts on this line
+                                                           param_2,
+                                                           param_3)
+# Etc...
+</code></pre>
+
+<p>If we start with our cursor on line 4 (the line with &gt;79 characters), we can fix the line-too-long error by breaking the line at the opening parenthesis of the function call. Typing <code>@q</code> while our cursor is on line 4 of our poorly-styled file, we get this:</p>
+
+<pre><code class="language-python"># foo.py 
+import new_directory.commonly_used_module
+
+my_long_variable = new_directory.commonly_used_module.ImportantClassName(
+    param_1,  
+                                                           param_2, # Cursor on this line
+                                                           param_3)
+# Etc...
+</code></pre>
+
+<p>Now lines 4-5 look correct. With our cursor already on line 6, we can align <code>param_2</code> with <code>param_1</code> on line 5 by typing <code>@w</code>:</p>
+
+<pre><code class="language-python"># foo.py 
+import new_directory.commonly_used_module
+
+my_long_variable = new_directory.commonly_used_module.ImportantClassName(
+    param_1,
+    param_2,
+                                                           param_3)  # Cursor on this line
+# Etc...
+</code></pre>
+
+<p>Now we have out parameters lined up, which is technically correct. Stylistically, though, I prefer having multiple short params on a single line. Since there&rsquo;s space for <code>param_2</code> on the same line as <code>param_1</code>, we can type <code>@e</code> (with our cursor on line beneath <code>param_2</code>) to get <code>param_2</code> up to line 5:</p>
+
+<pre><code class="language-python"># foo.py 
+import new_directory.commonly_used_module
+
+my_long_variable = new_directory.commonly_used_module.ImportantClassName(
+    param_1, param_2,
+                                                           param_3)  # Cursor on this line
+# Etc...
+</code></pre>
+
+<p>Finally, we can repeat the steps we took for <code>param_2</code> by typing <code>@w@e</code> again. This will align <code>param_3</code> and then move it up to the same line as <code>param_2</code>. We are left with the following file that has no lint errors:</p>
+
+<pre><code class="language-python"># foo.py 
+import new_directory.commonly_used_module
+
+my_long_variable = new_directory.commonly_used_module.ImportantClassName(
+    param_1, param_2, param_3)  
+# Etc...  # Cursor on this line
+</code></pre>
+
+<p>So, starting on the first problematic line, we used the keystrokes <code>@q@w@e@w@e</code> to solve all of our lint errors, and we didn&rsquo;t even have to navigate or worry about our cursor position!</p>
+
+<p><br /></p>
+
+<h1 id="bringing-it-all-together">Bringing it all together</h1>
+
+<p>When you really break down this process, it seems way more complex and artificial than it feels when applied. I would argue that the process of breaking the macros down and explaining them was far more difficult (and <em>way</em> more time consuming) than the process of actually creating them and putting them to use. The latter process felt pretty organic and natural. I noticed that I was repeating the same operation to fix a recurring error, so I recorded a macro to do the operation for me. After recording the same macro a couple of times, I put it in my <code>.vimrc</code> and used it (without really having to think about it) whenever I saw a familiar problem.</p>
+
+<p>Overall then, my lint-fixing workflow ended up looking something like this<sup><a href="#FN11">[11]</a></sup>:</p>
+
+<ul>
+<li>For each file with lint errors:
+
+<ul>
+<li>Open the file</li>
+<li>Move to the first problematic line by searching <code>\/\%&gt;79v.\+</code></li>
+<li>While there are lines with more than 79 characters:
+
+<ul>
+<li>Use macro #1 (<code>@q</code>) to fix the long line</li>
+<li>Apply macros #2 and #3 (<code>@w</code> and <code>@e</code>) as needed to fix indentation problems</li>
+<li>Move to the next problematic line by pressing <code>n</code> to get to the next search result</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>This wasn&rsquo;t a perfect process&mdash;not every lint error was solvable with these macros and I had to solve certain edge cases by hand (or with other macros). That said, I would estimate that this semi-automated process streamlined about 90% of the lint errors, and decreased the amount of time I spent trying to get the linter to pass by at least an order of magnitude.</p>
+
+<p>Elephant in the room, there are probably better ways to automate this kind of thing<sup><a href="#FN12">[12]</a></sup>. If this problem were a problem I was going to continue running into, I would need to find a better way. As it were, the amount of time I would have needed to automate this further was turning out to be more time than I spent fixing errors with the method above.</p>
+
+<p>I&rsquo;m sure that, with enough <a href="http://www.catb.org/~esr/jargon/html/Y/yak-shaving.html">yak shaving</a>, I could find a way to reduce the amount of time I spent on lint errors by another order of magnitude. In this case, that wasn&rsquo;t a rabbit hole worth going down and I was very happy to have a low-effort semi-automated option.</p>
+
+<p><br /></p>
+
+<h2 id="footnotes">Footnotes</h2>
+
+<p><span style="white-space:nowrap" id="FN1">[1]</span>
+This is an understatement. A more accurate statement would be &ldquo;vim macros are so neat that, paired with a bit of vim-fu, I completely avoided learning even basic command line utilities for an entire CS degree, and I should not be trusted with any tool as neat as vim macros.&rdquo;</p>
+
+<p><span id="FN2">[2]</span>
+At Khan Academy, we have a <a href="https://github.com/Khan/khan-linter">python linter</a> that is run at commit-time, before sending off a code review, and on deploy. This linter inforces Khan Academy&rsquo;s <a href="https://github.com/Khan/style-guides/blob/master/style/python.md">python style guide</a>.</p>
+
+<p><span id="FN3">[3]</span>
+To be fair, I&rsquo;m not smart enough to reliably break long lines in a pythonic and aesthetic manner either.</p>
+
+<p><span id="FN4">[4]</span>
+Hint: see <a href="https://wiki.python.org/moin/Vim">this guide</a> to figure that out!</p>
+
+<p><span id="FN5">[5]</span>
+One of the bigger moves that I worked on this most recent Khan Academy project created more than 500 lint errors spreading across about 300 files, and all of the lint errors were almost exactly like this example.</p>
+
+<p><span id="FN6">[6]</span>
+Ok, well, not these lines exactly. My <a href="https://github.com/carterjbastian/vimrc">actual <code>.vimrc</code> file</a> has a couple nifty remappings, including one which replaces the escape key. The listed version is the version of my macros that would work on straight-out-of-the-box vim.</p>
+
+<p><span id="FN7">[7]</span>
+These specific registers were chosen totally arbitrarily. Really they&rsquo;re just close to the <code>@</code> key and next to each other. They could be saved to any valid register.</p>
+
+<p><span id="FN8">[8]</span>
+In this case, <code>^M</code> isn&rsquo;t the two characters <code>^</code> and <code>M</code> in sequence. Rather, it&rsquo;s a special single character representing the enter key. You can enter it in insert mode by pressing <code>Ctrl-v</code> followed by the enter key. Same goes for <code>^[</code> and the Escape key.</p>
+
+<p><span id="FN9">[9]</span>
+The one scenario I&rsquo;ve found where pymode gets it wrong (at least as per the KA Style Guide) is in statements like <code>class MyClass(ParentClass):</code>. If we break after the opening parenthesis, pymode will leave <code>ParentClass</code> indented once (which is the same indentation as the content of the class) when it should be indented twice. I hit this edge case enough that I ended up saving a modified version of macro #2 which adds the extra indentation.</p>
+
+<p><span id="FN10">[10]</span>
+I did this because, in practice, I ended up always using macro #3 right after using macro #2, which leaves your cursor beneath the line you re-indented. As per the Spirit of Vim, I hate navigating. These macros were designed so that the cursor positioning is consistent and I never have to change it myself.</p>
+
+<p><span id="FN11">[11]</span>
+This is the process for long line errors. For under/over indentation errors, the process was slightly different and involved a bit of bash scripting to open each file on the line with the problematic indentation. Then all I had to do was use macro #2 to re-indent.</p>
+
+<p><span id="FN12">[12]</span>
+And I&rsquo;d love to hear what they are from you! Comment below to share yours!</p>
+
+</div>
+
+        <footer class="post-footer clearfix">
+    
+
+    <div class="share">
+        
+            <a class="icon-twitter" href="https://twitter.com/share?text=Recycling%20Vim%20Macros&url=https%3a%2f%2fcarterjbastian.github.io%2fpost%2fsaved-macros%2f"
+                onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fa fa-twitter"></i>
+                <span class="hidden">Twitter</span>
+            </a>
+        
+
+        
+            <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fcarterjbastian.github.io%2fpost%2fsaved-macros%2f"
+                onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="fa fa-facebook"></i>
+                <span class="hidden">Facebook</span>
+            </a>
+        
+
+        
+            <a class="icon-google-plus" href="https://plus.google.com/share?url=https%3a%2f%2fcarterjbastian.github.io%2fpost%2fsaved-macros%2f"
+              onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+              <i class="fa fa-google-plus"></i>
+                <span class="hidden">Google+</span>
+            </a>
+        
+        
+            <a class="icon-linkedin" href="https://www.linkedin.com/shareArticle?mini=true&title=Recycling%20Vim%20Macros&url=https%3a%2f%2fcarterjbastian.github.io%2fpost%2fsaved-macros%2f&summary=A%20semi-automated%20approach%20to%20lint%20errors"
+               onclick="window.open(this.href, 'linkedin-share', 'width=554,height=481');return false;">
+               <i class="fa fa-linkedin"></i>
+               <span class="hidden">LinkedIn</span>
+            </a>
+        
+    </div>
+</footer>
+
+        
+    <div class="comments">
+        <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "carterjbastian" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+
+    </article>
+</div>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="site-title-wrapper">
+                    <h1 class="site-title">
+                        <a title="Home" href="https://carterjbastian.github.io/">Home</a>
+                    </h1>
+                    <a class="button-square button-jump-top js-jump-top" href="#">
+                        <i class="fa fa-angle-up"></i>
+                    </a>
+                </div>
+
+                <p class="footer-copyright">
+                    <span>&copy; 2018 / Powered by <a href="https://gohugo.io/">Hugo</a></span>
+                </p>
+                <p class="footer-copyright">
+                    <span><a href="https://github.com/roryg/ghostwriter">Ghostwriter theme</a> By <a href="http://jollygoodthemes.com">JollyGoodThemes</a></span>
+                    <span>/ <a href="https://github.com/jbub/ghostwriter">Ported</a> to Hugo By <a href="https://github.com/jbub">jbub</a></span>
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://carterjbastian.github.io/js/jquery-1.11.3.min.js"></script>
+        <script src="https://carterjbastian.github.io/js/jquery.fitvids.js"></script>
+        
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        
+        
+        <script src="https://carterjbastian.github.io/js/scripts.js"></script>
+    </body>
+</html>
+

@@ -33,5 +33,16 @@ Here&amp;rsquo;s are some facts about me:
 Please also feel free to check my work. If I write something that&amp;rsquo;s wrong or misleading, let me know and I&amp;rsquo;ll correct it and credit you for helping me find the mistake :)</description>
     </item>
     
+    <item>
+      <title>Recycling Vim Macros</title>
+      <link>https://carterjbastian.github.io/post/saved-macros/</link>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 -0800</pubDate>
+      
+      <guid>https://carterjbastian.github.io/post/saved-macros/</guid>
+      <description>Vim macros are neat[1]. The ability to write, store, and repeat arbitrary operations by doing them in the editor once is one of the primary reasons I use vim for (almost) everything I write.
+Lint errors[2], on the other hand, are not neat.
+In the project my team has been working at Khan Academy for the past few months, we&amp;rsquo;ve been doing a lot of code reorganization and moving files around.</description>
+    </item>
+    
   </channel>
 </rss>

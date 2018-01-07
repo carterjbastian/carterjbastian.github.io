@@ -7,20 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Carter J. Bastian</copyright>
-    <lastBuildDate>Mon, 01 Jan 2018 00:00:00 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jan 2018 00:00:00 -0800</lastBuildDate>
     
 	<atom:link href="https://carterjbastian.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>My First Post</title>
-      <link>https://carterjbastian.github.io/post/my-first-post/</link>
-      <pubDate>Mon, 01 Jan 2018 00:00:00 -0800</pubDate>
+      <title>Recycling Vim Macros</title>
+      <link>https://carterjbastian.github.io/post/saved-macros/</link>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 -0800</pubDate>
       
-      <guid>https://carterjbastian.github.io/post/my-first-post/</guid>
-      <description> This is my Heading 1 Is this a subtitle? This is some text. Next Line.
-Double line and lorem ipsum.
-for code in this: # Do something  </description>
+      <guid>https://carterjbastian.github.io/post/saved-macros/</guid>
+      <description>Vim macros are neat[1]. The ability to write, store, and repeat arbitrary operations by doing them in the editor once is one of the primary reasons I use vim for (almost) everything I write.
+Lint errors[2], on the other hand, are not neat.
+In the project my team has been working at Khan Academy for the past few months, we&amp;rsquo;ve been doing a lot of code reorganization and moving files around.</description>
     </item>
     
   </channel>
