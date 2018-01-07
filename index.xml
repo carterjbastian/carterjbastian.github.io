@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Carter J. Bastian</copyright>
-    <lastBuildDate>Mon, 01 Jan 2018 16:25:08 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jan 2018 00:00:00 -0800</lastBuildDate>
     
 	<atom:link href="https://carterjbastian.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,23 +15,22 @@
     <item>
       <title>About</title>
       <link>https://carterjbastian.github.io/about/</link>
-      <pubDate>Mon, 01 Jan 2018 16:25:08 -0800</pubDate>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 -0800</pubDate>
       
       <guid>https://carterjbastian.github.io/about/</guid>
       <description>I&amp;rsquo;m Carter, and this is my blog. Some of the posts here will be about technical things, and others will be about completely non-technical things that are also (hopefully) interesting (to somebody besides me).
 Here&amp;rsquo;s are some facts about me:
- I have a thing for lists. No, seriously. They&amp;rsquo;re like, hands down my favorite way to present information. I&amp;rsquo;m originally from Spokane but I&amp;rsquo;m currently living in San Francisco. I graduated from Dartmouth&amp;rsquo;s CS program in 2017, and now I&amp;rsquo;m a software developer on Khan Academy&amp;rsquo;s engineering team!</description>
+ I have a thing for lists. No, seriously. They&amp;rsquo;re like, hands down my favorite way to present information. I&amp;rsquo;m from Spokane, and right now I live in San Francisco. I graduated from Dartmouth&amp;rsquo;s CS program in 2017.</description>
     </item>
     
     <item>
-      <title>My First Post</title>
-      <link>https://carterjbastian.github.io/post/my-first-post/</link>
-      <pubDate>Mon, 01 Jan 2018 00:00:00 -0800</pubDate>
+      <title>Contact</title>
+      <link>https://carterjbastian.github.io/contact/</link>
+      <pubDate>Sun, 07 Jan 2018 00:00:00 -0800</pubDate>
       
-      <guid>https://carterjbastian.github.io/post/my-first-post/</guid>
-      <description> This is my Heading 1 Is this a subtitle? This is some text. Next Line.
-Double line and lorem ipsum.
-for code in this: # Do something  </description>
+      <guid>https://carterjbastian.github.io/contact/</guid>
+      <description>Feel free to reach out with questions, comments or concerns at carter.bastian1@gmail.com or use the buttons at the top of the site to find me on ~the internet~
+Please feel free to check my work. If I write something that&amp;rsquo;s wrong or misleading, let me know and I&amp;rsquo;ll correct it and credit you for helping me find the mistake :)</description>
     </item>
     
   </channel>
