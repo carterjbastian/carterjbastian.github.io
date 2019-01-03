@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Carter J. Bastian</copyright>
-    <lastBuildDate>Sun, 07 Jan 2018 00:00:00 -0800</lastBuildDate>
+    <lastBuildDate>Wed, 02 Jan 2019 00:00:00 -0800</lastBuildDate>
     
 	<atom:link href="https://carterjbastian.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Addition by Subtraction</title>
+      <link>https://carterjbastian.github.io/post/addition-by-subtraction/</link>
+      <pubDate>Wed, 02 Jan 2019 00:00:00 -0800</pubDate>
+      
+      <guid>https://carterjbastian.github.io/post/addition-by-subtraction/</guid>
+      <description>Andy: [chuckles] Addition by subtraction.
+Michael: What does that even mean? That is impossible.
+Andy: Mmmm. Yeah you&amp;rsquo;re right.
+Michael: But, there is some good news. Oscar is back. Addition by addition
+ The Problem with Resolutions I love New Years Eve. It&amp;rsquo;s my favorite of all holidays! Other holidays celebrate bunnies, or monsters, or the systemic exploitation of indigenous people, or Jesus Christ&amp;rsquo;s kind-of birthday[1], but not New Years.</description>
+    </item>
     
     <item>
       <title>Recycling Vim Macros</title>
