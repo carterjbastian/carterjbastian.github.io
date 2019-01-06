@@ -26,6 +26,16 @@ Michael: But, there is some good news. Oscar is back. Addition by addition
     </item>
     
     <item>
+      <title>Re-architecting for Dependency Structure</title>
+      <link>https://carterjbastian.github.io/post/adr13/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 -0700</pubDate>
+      
+      <guid>https://carterjbastian.github.io/post/adr13/</guid>
+      <description>[ This article is cross-posted from Khan Academy&amp;rsquo;s engineering blog. You can see the original here ]
+The previous posts about The Great Khan Academy Python Refactor of 2017 and Also 2018 answered two questions: why and how did we refactor all of our Python code? In this post, I want to look closer at a major goal of this project: cleaning up dependencies between parts of our Python codebase.</description>
+    </item>
+    
+    <item>
       <title>Recycling Vim Macros</title>
       <link>https://carterjbastian.github.io/post/saved-macros/</link>
       <pubDate>Sun, 07 Jan 2018 00:00:00 -0800</pubDate>
